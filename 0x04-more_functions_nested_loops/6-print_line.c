@@ -2,7 +2,7 @@
 
 /**
   * print_line - function to draw straight lines
-  *
+  * @n: function parameter
   * Return: void
   */
 
