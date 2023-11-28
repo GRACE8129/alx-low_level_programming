@@ -8,36 +8,41 @@
  *
  * Return: Number of letters read and printed, or 0 on failure.
  */
-
-ssize_t read_textfile(const char *filename, size_t letters);
+ssize_t read_textfile(const char *filename, size_t letters)
 {
-	int file_o;
-	ssize_t lenr, lenw;
-	char *buffer;
+	int fd;
+	ssize_t  read_chars, write_chars;
+	char *buf;
 
 	if (filename == NULL)
 		return (0);
-	file_o = open(filename, O_RDONLY);
-	if (file_o == -1)
-		return (0);
-	 buffer = malloc(sizeof(char) + lettters);
-	 if (buffer == NULL)
-	 {
-		 close(file_o);
-		 return (0);
-ssize_t read_textfile(const char *filename, size_t letters);	 }
 
-	 lenr = read(file_o, buffer, lettters);
-	 close(file_o);
-	 if (lenr == -1)
-	 {
-		 free(bufffer);
-		 return (0);
-	 }
-	 lenw = write(STDOUT_FILENO, buffer, lenr);
-	 free(buffer);
-	 if (lenr != lenw)
-		 return (0);
-	 else
-		 return (lenw);
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		return (0);
+
+	buf = malloc(sizeof(char) * letters);
+	if (!buf)
+		return (0);
+
+	read_chars = read(fd, buf, letters);
+	if (read_chars == -1)
+	{
+		free(buf);
+		close(fd);
+		return (0);
+	}
+
+	write_chars = write(STDOUT_FILENO, buf, read_chars);
+	if (write_chars == -1 || write_chars != read_chars)
+	{
+		free(buf);
+		close(fd);
+		return (0);
+	}
+
+	free(buf);
+	close(fd);
+
+	return (write_chars);
 }
