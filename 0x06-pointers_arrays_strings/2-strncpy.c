@@ -1,23 +1,24 @@
 #include "main.h"
 
 /**
-  * _strncpy - copy string
+  * _strcat - concatenation of 2 strings
   * @dest: destination string
   * @src: source string
-  * @n: num of bits to copy
   * Return: dest
   */
 
-char *_strncpy(char *dest, char *src, int n)
+char *_strcat(char *dest, char *src)
 {
+	int destlength = 0;
+	int srclength = 0;
 	int i;
 
-	for (i = 0; i < n && src[i] != '\0'; i++)
-		dest[i] = src[i];
-	while (i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
+	for (i = 0; dest[i] != '\0'; i++)
+		destlength++;
+	for (i = 0; src[i] != '\0'; i++)
+		srclength++;
+	for (i = 0; i <= srclength; i++)
+		dest[destlength + i] = src[i];
+
 	return (dest);
 }
